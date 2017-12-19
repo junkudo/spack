@@ -178,6 +178,13 @@ class Mfem(Package):
 
         if '+mpi' in spec:
             options += ['MPICXX=%s' % spec['mpi'].mpicxx]
+            # If using mpi, explicitly pass in compiler flags
+            options += ['CFLAGS = %s'
+                        % " ".join(self.spec.compiler_flags['cflags'])]
+            options += ['CXXFLAGS = %s'
+                        % " ".join(self.spec.compiler_flags['cxxflags'])]
+            options += ['CPPFLAGS = %s'
+                        % " ".join(self.spec.compiler_flags['cppflags'])]
 
         if '+hypre' in spec:
             options += [
