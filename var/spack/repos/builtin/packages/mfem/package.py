@@ -56,6 +56,11 @@ class Mfem(Package):
             url='https://goo.gl/Kd7Jk8', extension='.tar.gz',
             preferred=True)
 
+    # kudo4 - added to replicate LiDO's current mfem dependency
+    version('3.3.1', git='https://github.com/mfem/mfem',
+            commit='2ba134f')
+
+
     version('laghos-v1.0', git='https://github.com/mfem/mfem',
             tag='laghos-v1.0')
 
@@ -174,7 +179,10 @@ class Mfem(Package):
             'MFEM_USE_PETSC=%s' % yes_no('+petsc'),
             'MFEM_USE_NETCDF=%s' % yes_no('+netcdf'),
             'MFEM_USE_MPFR=%s' % yes_no('+mpfr'),
-            'MFEM_USE_OPENMP=%s' % yes_no('+openmp')]
+            'MFEM_USE_OPENMP=%s' % yes_no('+openmp'),
+            'CFLAGS= ',
+            'CXXFLAGS= ',
+            'CPPFLAGS= ']
 
         if '+mpi' in spec:
             options += ['MPICXX=%s' % spec['mpi'].mpicxx]

@@ -46,11 +46,15 @@ class Ipopt(AutotoolsPackage):
             description="Build with Coin Harwell Subroutine Libraries")
     variant('metis', default=False,
             description="Build with METIS partitioning support")
+    variant('sanitychecks', default=False,
+            description="Build with runtime sanity checks")
+    variant('mumps', default=True,
+            description="Build with MUMPS")
 
     depends_on("blas")
     depends_on("lapack")
     depends_on("pkgconfig", type='build')
-    depends_on("mumps+double~mpi")
+    depends_on("mumps+double~mpi", when='+mumps')
     depends_on('coinhsl', when='+coinhsl')
     depends_on('metis@4.0:', when='+metis')
 
@@ -67,20 +71,12 @@ class Ipopt(AutotoolsPackage):
         # Dependency directories
         blas_dir = spec['blas'].prefix
         lapack_dir = spec['lapack'].prefix
-        mumps_dir = spec['mumps'].prefix
-
-        # Add directory with fake MPI headers in sequential MUMPS
-        # install to header search path
-        mumps_flags = "-ldmumps -lmumps_common -lpord -lmpiseq"
-        mumps_libcmd = "-L%s " % mumps_dir.lib + mumps_flags
 
         blas_lib = spec['blas'].libs.ld_flags
         lapack_lib = spec['lapack'].libs.ld_flags
 
         args = [
             "--prefix=%s" % self.prefix,
-            "--with-mumps-incdir=%s" % mumps_dir.include,
-            "--with-mumps-lib=%s" % mumps_libcmd,
             "--enable-shared",
             "coin_skip_warn_cxxflags=yes",
             "--with-blas-incdir=%s" % blas_dir.include,
@@ -88,6 +84,18 @@ class Ipopt(AutotoolsPackage):
             "--with-lapack-incdir=%s" % lapack_dir.include,
             "--with-lapack-lib=%s" % lapack_lib
         ]
+
+        if 'mumps' in spec:
+            mumps_dir = spec['mumps'].prefix
+
+            # Add directory with fake MPI headers in sequential MUMPS
+            # install to header search path
+            mumps_flags = "-ldmumps -lmumps_common -lpord -lmpiseq"
+            mumps_libcmd = "-L%s " % mumps_dir.lib + mumps_flags
+
+            args.extend([
+                "--with-mumps-incdir=%s" % mumps_dir.include,
+                "--with-mumps-lib=%s" % mumps_libcmd])
 
         if 'coinhsl' in spec:
             args.extend([
@@ -99,4 +107,7 @@ class Ipopt(AutotoolsPackage):
                 '--with-metis-lib=%s' % spec['metis'].libs.ld_flags,
                 '--with-metis-incdir=%s' % spec['metis'].prefix.include])
 
+        if '+sanitychecks' in spec:
+            args.extend([
+                '-with-ipopt-checklevel=1'])
         return args

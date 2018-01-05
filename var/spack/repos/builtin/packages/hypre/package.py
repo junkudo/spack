@@ -71,7 +71,10 @@ class Hypre(Package):
             '--with-lapack-libs=%s' % ' '.join(lapack.names),
             '--with-lapack-lib-dirs=%s' % ' '.join(lapack.directories),
             '--with-blas-libs=%s' % ' '.join(blas.names),
-            '--with-blas-lib-dirs=%s' % ' '.join(blas.directories)
+            '--with-blas-lib-dirs=%s' % ' '.join(blas.directories),
+            'CFLAGS= ',
+            'CXXFLAGS= ',
+            'FFLAGS= '
         ]
 
         if '+mpi' in self.spec:

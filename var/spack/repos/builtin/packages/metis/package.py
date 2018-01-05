@@ -105,6 +105,11 @@ class Metis(Package):
             options.append('COPTIONS={0}'.format(self.compiler.pic_flag))
         if spec.variants['build_type'].value == 'Debug':
             options.append('OPTFLAGS=-g -O0')
+        else:
+            # ignore default optimization flags and allow spack compiler wrapper 
+            # to inject flags in.
+            options.append('OPTFLAGS= ')
+            
         make(*options)
 
         # Compile and install library files
