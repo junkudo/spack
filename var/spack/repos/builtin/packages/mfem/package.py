@@ -51,6 +51,11 @@ class Mfem(Package):
     # If this quick verification procedure fails, additional discussion
     # will be required to verify the new version.
 
+    # kudo4 - Added for Seth - some version after 3.3.2 but before 3.3.4
+    # that seth needs for hyper elasticity stuff.
+    version('3.3.2plus', git='https://github.com/mfem/mfem',
+            commit='e2a1667a4dd7e9ec034bc68ae1cd973e61bdad79')
+
     version('3.3.2',
             '01a762a5d0a2bc59ce4e2f59009045a4',
             url='https://goo.gl/Kd7Jk8', extension='.tar.gz',
