@@ -53,6 +53,9 @@ class Mfem(Package):
 
     version('develop',
             git='https://github.com/mfem/mfem', branch='master')
+
+    version('commit-3e9a86c',
+            git='https://github.com/mfem/mfem', commit='3e9a86c')
     
     version('3.4', git='https://github.com/mfem/mfem', tag='v3.4')
 
