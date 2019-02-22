@@ -54,7 +54,11 @@ class Mfem(Package):
     version('develop',
             git='https://github.com/mfem/mfem', branch='master')
 
-    version('commit-3e9a86c',
+    # 2019/02/22 - Fixes https://github.com/mfem/mfem/issues/739
+    version('3.4-commit-402a348',
+            git='https://github.com/mfem/mfem', commit='402a348')
+
+    version('3.4-commit-3e9a86c',
             git='https://github.com/mfem/mfem', commit='3e9a86c')
     
     version('3.4', git='https://github.com/mfem/mfem', tag='v3.4')
@@ -151,7 +155,7 @@ class Mfem(Package):
     depends_on('libunwind', when='+debug')
     depends_on('zlib', when='+gzstream')
 
-    patch('mfem_ppc_build.patch', when='@3.2:3.3 arch=ppc64le')
+#    patch('mfem_ppc_build.patch', when='@3.2:3.3 arch=ppc64le')
 
     #
     # Note: Although MFEM does support CMake configuration, MFEM
