@@ -29,14 +29,21 @@ class Luck(CMakePackage):
     homepage = "https://github.com/LLNL/hiop"
     url      = "https://github.com/LLNL/hiop"
 
-    version('cc69aabeef8', git='https://lc.llnl.gov/bitbucket/scm/topopt/luck.git',
-            commit='cc69aabeef8')
+    version('568c9ac6906', git='https://lc.llnl.gov/bitbucket/scm/topopt/luck.git',
+            commit='568c9ac6906')
+    version('develop', git='https://lc.llnl.gov/bitbucket/scm/topopt/luck.git',
+            branch='master')
+
     depends_on('boost@1.57.0:')
     depends_on('cmake@3.9.0:', type='build')
     flag_handler = CMakePackage.build_system_flags
 
     def cmake_args(self):
-        args = []
+        args = ["-DBLAS_LIBRARIES=/usr/tcetmp/packages/lapack/lapack-3.8.0-gcc-4.9.3/lib/libblas.so", "-DLAPACK_LIBRARIES=/usr/tcetmp/packages/lapack/lapack-3.8.0-gcc-4.9.3/lib/liblapack.so"]
         spec = self.spec
+
+# necessary because ray can't find stuff
+#-DBLAS_LIBRARIES=/usr/tcetmp/packages/lapack/lapack-3.8.0-gcc-4.9.3/lib/libblas.so \
+#-DLAPACK_LIBRARIES=/usr/tcetmp/packages/lapack/lapack-3.8.0-gcc-4.9.3/lib/liblapack.so \
 
         return args
