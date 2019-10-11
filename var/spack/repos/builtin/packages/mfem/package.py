@@ -45,6 +45,10 @@ class Mfem(Package):
     # other version.
     version('develop', branch='master')
 
+    version('4.0',
+            'df5bdac798ea84a263979f6fbf79de9013e1c55562f95f98644c3edcacfbc727',
+            url='https://bit.ly/mfem-4-0', extension='.tar.gz')
+
     # Tagged development version used by the laghos package:
     version('3.4.1-laghos-v2.0', tag='laghos-v2.0')
 
